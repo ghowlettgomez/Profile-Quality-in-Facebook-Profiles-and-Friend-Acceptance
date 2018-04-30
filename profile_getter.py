@@ -19,8 +19,8 @@ class FB_Profile_Driver():
 		self.access_profile()
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
-	def run(self, friend_url):
-		friends_list = self.access_friends_of_profile()
+	def run(self, profile_url):
+		friends_list = self.access_friends_of_profile(profile_url)
 		self.access_friend(friends_list)
 
 	""" Enters a user's facebook profile"""
@@ -40,12 +40,12 @@ class FB_Profile_Driver():
 		sleep(1)
 
 	""" Accesses the friends of a given profile"""
-	def access_friends_of_profile(self, friend_url):
-		self.browser.get(friend_url + '/friends')
+	def access_friends_of_profile(self, profile_url):
+		self.browser.get(profile_url + '/friends')
 		friends = set()
 		friends_len = 0
 		while True:
-			friends |= set(self.browser.find_elements_by_class_name('_698'))
+			friends |= set(self.browser.find_elements_by_xpath("//div[@class='fsl fwb fcb']"))
 			if len(friends) == friends_len:
 				return list(friends)
 			friends_len = len(friends)
@@ -55,8 +55,9 @@ class FB_Profile_Driver():
 	"""Given a list of friends, access the profile of a random friend"""
 	def access_friend(self, friends_list):
 		num_friends = len(friends_list)
-
-
+		random_int = random.randint(0, num_friends)
+		random_friend = friends_list[random_int]
+		random_friend.find_element_by_tag_name("a").click()
 
 f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
-f.access_friends_of_profile('https://www.facebook.com/greg.hg.3')
+f.run('https://www.facebook.com/greg.hg.3')
