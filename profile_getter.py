@@ -21,7 +21,8 @@ class FB_Profile_Driver():
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url):
 		friends_list = self.access_friends_of_profile(profile_url)
-		self.access_friend(friends_list)
+		friend_body_html = self.access_friend(friends_list)
+		self.load_body_html(friend_body_html)
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
@@ -52,12 +53,20 @@ class FB_Profile_Driver():
 			self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 			sleep(2)
 
-	"""Given a list of friends, access the profile of a random friend"""
+	"""Given a list of friends, access the profile of a random friend
+		and get the inner html of the body.
+	"""
 	def access_friend(self, friends_list):
 		num_friends = len(friends_list)
 		random_int = random.randint(0, num_friends)
 		random_friend = friends_list[random_int]
 		random_friend.find_element_by_tag_name("a").click()
+		return self.browser.execute_script("return document.body.innerHTML")
+
+
+	"""Given the inner html of the body, load that html"""
+	def load_body_html(self, body_html):
+		self.browser.execute_script("document.body.innerHTML = '" + body_html.replace("'", r"\'") + "'")
 
 f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
 f.run('https://www.facebook.com/greg.hg.3')
