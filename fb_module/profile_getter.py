@@ -68,6 +68,3 @@ class FB_Profile_Driver():
 	"""Given the inner html of the body, load that html"""
 	def load_body_html(self, body_html):
 		self.browser.execute_script("document.body.innerHTML = %s" % json.dumps(body_html))
-
-f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
-f.run('https://www.facebook.com/greg.hg.3')
