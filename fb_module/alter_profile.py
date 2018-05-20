@@ -23,8 +23,8 @@ class HTML_Editor(object):
     def saveProfilePic(self, s):
         startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
         picElement = s[startAndEnd[0]:startAndEnd[1]]
-        startAndEndPic = self.getStartAndEnd(picElement, 'src="', ' /')
-        return picElement[startAndEndPic[0]+5:startAndEndPic[1]-1]
+        startAndEndPic = self.getStartAndEnd(picElement, 'src="', '"')
+        return picElement[startAndEndPic[0]+5:startAndEndPic[1]]
 
     def replaceBackground(self, s):
         name = self.getName(s)
