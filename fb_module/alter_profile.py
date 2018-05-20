@@ -21,13 +21,13 @@ class HTML_Editor(object):
         return s[0:startAndEnd[0]] + self.defaultPic + s[startAndEnd[1]:len(s)]
 
     def saveProfilePic(self, s):
-        startAndEnd = getStartAndEnd(s, '<img class="_11kf', '>')
+        startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
         picElement = s[startAndEnd[0]:startAndEnd[1]]
         startAndEndPic = getStartAndEnd(picElement, 'src="', ' /')
         return picElement[startAndEndPic[0]+5:startAndEndPic[1]-1]
 
     def replaceBackground(self, s):
-        name = getName(s)
+        name = self.getName(s)
         defaultBackground = '<div class="cover" id="u_0_u"><div class="coverEmptyWrap _37fg coverImage coverNoImage" id="fbCoverImageContainer" data-cropped="1"><img class="coverChangeThrobber img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/RozqvGf0LV-.gif" alt="" width="16" height="16"></div><div class="_2nlj _3x7_ _2xc6"><h1 class="_2nlv"><span class="_2t_q" id="fb-timeline-cover-name" data-testid="profile_name_in_profile_page"><a class="_2nlw _2nlv" href="https://www.facebook.com/sadflj.segilua.7">' + name + '</a>'
         startAndEnd = self.getStartAndEnd(s, '<div class="cover"', '</a>')
         return s[0:startAndEnd[0]] + defaultBackground + s[startAndEnd[1]:len(s)]
@@ -37,7 +37,7 @@ class HTML_Editor(object):
         return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
     def createRequestHeader(self, s):
-        name = getName(s)
+        name = self.getName(s)
         print(name)
         self.requestHeader = '<div class="_5h60" id="pagelet_above_header_timeline" data-referrer="pagelet_above_header_timeline" style="top: 0px;"><div class="_2pi6 _52jv" id="u_fetchstream_3_5"><span class="_2iem"><span class="_35ow"><span class="_50f7">' + name + '</span> sent you a friend request</span><a role="button" class="_42ft _4jy0 _4jy4 _4jy1 selected _51sy" href="/ajax/add_friend/action.php?to_friend=100025753903858&amp;action=confirm&amp;ref_param=%2Fprofile.php&amp;floc=profile_box&amp;frefs%5B0%5D=jewel" rel="async-post" data-hover="tooltip" data-tooltip-content="Confirm Request" id="js_i2"><img class="_2vhe hidden_elem _3-8_ img" alt="Confirm Request" src="https://static.xx.fbcdn.net/rsrc.php/v3/yT/r/9X_pFYHCHN4.png" width="23" height="23"><span class="_2vhc">Confirm Request</span></a><a role="button" class="_42ft _4jy0 _4jy4 _517h _51sy" href="/ajax/profile/connect/reject.php?profile_id=100025753903858&amp;ref=%2Fprofile.php&amp;floc=profile_box&amp;frefs%5B0%5D=jewel" rel="async-post" id="u_fetchstream_3_4" data-hover="tooltip" data-tooltip-content="Delete Request"><i class="_2vhf hidden_elem _3-8_ img sp_xfcCes0Za9Q_2x sx_83b7a3"><u>Delete Request</u></i><span class="_2vhd">Delete Request</span></a></span></div></div>'
         startAndEnd = self.getStartAndEnd(s, '<div class="_5h60" id="pagelet_above_header_timeline"', '</div>')
