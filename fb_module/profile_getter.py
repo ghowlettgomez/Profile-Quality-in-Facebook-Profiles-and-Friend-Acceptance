@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from fb_module.alter_profile import HTML_Editor
 from time import sleep
 import random 
 import json
@@ -17,13 +18,15 @@ class FB_Profile_Driver():
 	def __init__(self, username, password):
 		self.username = username
 		self.password = password
+		self.editor = HTML_Editor()
 		self.access_profile()
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url, path):
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list)
-		self.load_body_html(friend_body_html)
+		edited_body_html = self.editor.replaceProfilePic(friend_body_html)
+		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
 
 	""" Enters a user's facebook profile"""
@@ -69,8 +72,10 @@ class FB_Profile_Driver():
 	"""Given the inner html of the body, load that html"""
 	def load_body_html(self, body_html):
 		self.browser.execute_script("document.body.innerHTML = %s" % json.dumps(body_html))
+		sleep(5)
 
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot(self, path):
-		time.sleep(5)
+		sleep(5)
 		self.browser.get_screenshot_as_file(path)
+
