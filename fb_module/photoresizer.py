@@ -1,6 +1,6 @@
 from PIL import Image
 from resizeimage import resizeimage
-import urllib.request
+import urllib
 
 class Photo_Resizer(object):
 
