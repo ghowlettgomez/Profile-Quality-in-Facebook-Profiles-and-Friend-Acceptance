@@ -52,7 +52,7 @@ class FB_Profile_Driver():
 
 	""" Accesses the friends of a given profile"""
 	def access_friends_of_profile(self, profile_url):
-		self.browser.get(profile_url + '/friends')
+		self.browser.get(profile_url.split('?')[0] + '/friends')
 		friends = set()
 		friends_len = 0
 		while True:
