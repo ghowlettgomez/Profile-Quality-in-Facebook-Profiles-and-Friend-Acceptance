@@ -28,8 +28,8 @@ class FB_Profile_Driver():
 	def run(self, profile_url, path):
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list)
-		imgurl = self.editor.saveProfilePic(friend_body_html)
-		self.resizer.resizeimage(imgurl, path)
+		'''imgurl = self.editor.saveProfilePic(friend_body_html)
+		self.resizer.resizeimage(imgurl, path)'''
 		edited_body_html = self.editor.replaceProfilePic(friend_body_html)
 		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
@@ -52,7 +52,11 @@ class FB_Profile_Driver():
 
 	""" Accesses the friends of a given profile"""
 	def access_friends_of_profile(self, profile_url):
-		self.browser.get(profile_url.split('?')[0] + '/friends')
+		#self.browser.get(profile_url.split('?')[0] + '/friends')
+		self.browser.get(profile_url)
+		friends_url = self.browser.find_element_by_xpath('/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[2]/div/div[1]/div/div[3]/div/div[2]/div[2]/ul/li[3]/a')
+		friends_url.click()
+		sleep(5)
 		friends = set()
 		friends_len = 0
 		while True:
