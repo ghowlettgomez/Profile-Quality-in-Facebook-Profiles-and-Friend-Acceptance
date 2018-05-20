@@ -1,1 +1,8 @@
+certifi==2018.4.16
+chardet==3.0.4
+idna==2.6
+Pillow==5.1.0
+python-resize-image==1.1.11
+requests==2.18.4
 selenium==3.11.0
+urllib3==1.22
