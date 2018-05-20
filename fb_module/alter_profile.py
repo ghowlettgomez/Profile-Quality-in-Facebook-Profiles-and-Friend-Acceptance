@@ -8,7 +8,9 @@ class HTML_Editor(object):
     def getStartAndEnd(self, s, start, end):
         indices = []
         indices.append(s.index(start))
+        print(0)
         indices.append(s.index(end, indices[0]))
+        print(1)
         return indices
 
     def getName(self, s):
@@ -21,9 +23,11 @@ class HTML_Editor(object):
         return s[0:startAndEnd[0]] + self.defaultPic + s[startAndEnd[1]:len(s)]
 
     def saveProfilePic(self, s):
+        print (s)
         startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
         picElement = s[startAndEnd[0]:startAndEnd[1]]
-        startAndEndPic = self.getStartAndEnd(picElement, 'src="', ' /')
+        print (picElement)
+        startAndEndPic = self.getStartAndEnd(picElement, 'src="', '"')
         return picElement[startAndEndPic[0]+5:startAndEndPic[1]-1]
 
     def replaceBackground(self, s):
