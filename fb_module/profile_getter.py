@@ -25,7 +25,7 @@ class FB_Profile_Driver():
 	def run(self, profile_url, path):
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list)
-		edited_body_html = self.editor.replaceProfilePic(friend_body_html)
+		edited_body_html = self.editor.replaceBackground(friend_body_html)
 		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
 
