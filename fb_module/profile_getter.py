@@ -61,7 +61,7 @@ class FB_Profile_Driver():
 		friends_len = 0
 		while True:
 			friends |= set(self.browser.find_elements_by_xpath("//div[@class='fsl fwb fcb']"))
-			if len(friends) == friends_len:
+			if len(friends) == friends_len or friends_len > 200:
 				return list(friends)
 			friends_len = len(friends)
 			self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
