@@ -20,6 +20,14 @@ def replaceProfilePic (s):
     startAndEnd = getStartAndEnd(s, '<img class="_11kf', '>')
     return s[0:startAndEnd[0]] + defaultPic + s[startAndEnd[1]:len(s)]
 
+def saveProfilePic (s):
+    startAndEnd = getStartAndEnd(s, '<img class="_11kf', '>')
+    picElement = s[startAndEnd[0]:startAndEnd[1]]
+    startAndEndPic = getStartAndEnd(picElement, 'src="', ' /')
+    return picElement[startAndEndPic[0]+5:startAndEndPic[1]-1]
+
+print (saveProfilePic(profile))
+
 def replaceBackground (s):
     name = getName(s)
     defaultBackground = '<div class="cover" id="u_fetchstream_4_0"><div class="coverEmptyWrap _37fg coverImage coverNoImage" id="fbCoverImageContainer" data-cropped="1"><img class="coverChangeThrobber img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/RozqvGf0LV-.gif" alt="" width="16" height="16"></div><div class="_2nlj _3x7_ _2xc6"><h1 class="_2nlv"><span class="_2t_q" id="fb-timeline-cover-name" data-testid="profile_name_in_profile_page"><a class="_2nlw _2nlv" href="https://www.facebook.com/sadflj.segilua.7">' + name + '</a></span><span class="_2nly"></span>'
@@ -48,7 +56,7 @@ def nameInMenu (s, name):
     return s[0:startAndEnd[0]] + '<span class="_1vp5">' + name + '</span>' + s[startAndEnd[1]:len(s)]
 
 with open('full_profile_edited.txt', 'w') as edited:
-    edited.write(removeHistory(replaceBackground(replaceProfilePic(fixButton(nameInMenu(profile, 'Test'))))))
+    edited.write(replaceProfilePic(profile))
 
 
 def alterSmallRequest (name, friends):
