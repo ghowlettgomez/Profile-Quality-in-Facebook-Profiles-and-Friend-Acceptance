@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from alter_profile import HTML_Editor
+from fb_module.alter_profile import HTML_Editor
 from PIL import Image
 from resizeimage import resizeimage
 import urllib.request
-from photoresizer import Photo_Resizer
+from fb_module.photoresizer import Photo_Resizer
 from time import sleep
 import random
 import json
