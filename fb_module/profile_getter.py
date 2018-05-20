@@ -1,14 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from fb_module.alter_profile import HTML_Editor
+from PIL import Image
+from resizeimage import resizeimage
+import urllib.request
+from fb_module.photoresizer import Photo_Resizer
 from time import sleep
-import random 
+import random
 import json
 
+
 """ Accesses a user's facebook profile
-	Note that selenium requires geckodriver 
-	to be added to PATH. Geckdriver can be 
-	downloaded here: 
+	Note that selenium requires geckodriver
+	to be added to PATH. Geckdriver can be
+	downloaded here:
 	https://github.com/mozilla/geckodriver/releases
 """
 class FB_Profile_Driver():
@@ -78,4 +83,3 @@ class FB_Profile_Driver():
 	def take_screenshot(self, path):
 		sleep(5)
 		self.browser.get_screenshot_as_file(path)
-
