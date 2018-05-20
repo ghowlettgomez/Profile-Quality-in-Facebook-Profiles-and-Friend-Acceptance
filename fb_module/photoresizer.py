@@ -11,3 +11,6 @@ class Photo_Resizer(object):
             with Image.open(f) as image:
                 cover = resizeimage.resize_cover(image, [100, 100])
                 cover.save(path + '/resizedImage.jpg', image.format)
+
+
+// yo
