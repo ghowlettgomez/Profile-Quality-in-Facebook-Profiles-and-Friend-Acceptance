@@ -40,7 +40,7 @@ class FB_Profile_Driver():
 		friends_list = self.access_friends_of_profile(profile_url)
 		full_html = self.access_friend_full(friends_list,sleeptime)
 		self.run_full(full_html, path, type)
-        small_html = self.access_friend_small(sleeptime)
+		small_html = self.access_friend_small(sleeptime)
 		self.run_small(small_html, path, type)
 
 	""" Enters a user's facebook profile"""
