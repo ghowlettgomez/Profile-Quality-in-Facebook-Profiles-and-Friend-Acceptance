@@ -38,6 +38,8 @@ class FB_Profile_Driver():
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
 		print (profile_type)
 		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
+		if openrequests:
+			edited_body_html = self.editor.alterSmallRequest("TEST",random.randint(1,50),"imgs/resideImage.jpg")
 		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
 
