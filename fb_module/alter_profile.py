@@ -48,9 +48,13 @@ class HTML_Editor(object):
         requestButton = '<button value="1" class="_42ft _4jy0 FriendRequestIncoming _52nf _4jy4 _517h _9c6" type="submit" id="u_ps_fetchstream_17_1_7" aria-controls="js_2dz" aria-haspopup="true" aria-describedby="js_2e0"><i class="_3-8_ img sp_9qsyMvYUWch_2x sx_10eb3e"></i>Respond to Friend Request</button>'
         startAndEnd = self.getStartAndEnd(s, '<button class="_42ft _4jy0 FriendRequestAdd addButton _4jy4 _517h _9c6', '</button>')
         return s[0:startAndEnd[0]] + requestButton + s[startAndEnd[1]:len(s)]
-    
+
     def removeAddFriendBanner (self, s):
         startAndEnd = self.getStartAndEnd(s, '<div class="escapeHatchMinimal', '<div id="fbSuggestionsHatchPlaceHolder">')
+        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
+
+    def removeSidebar(self,s):
+        startAndEnd = self.getStartAndEnd(s,'<ol class="_2t4v clearfix" data-referrer="pagelet_timeline_recent_ocm"','</ol>')
         return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
     def nameInMenu(self, s, name):
@@ -70,12 +74,15 @@ class HTML_Editor(object):
         request = '<li class="objectListItem" id="100002392517786_1_req"><div class="clearfix" data-ft="{&quot;tn&quot;:&quot;-Z&quot;}"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel" tabindex="-1" data-ft="{&quot;tn&quot;:&quot;-^&quot;}" class="_8o _8s lfloat _ohe" id="u_14_3"><img class="_s0 _4ooo _rw img" src="https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-1/c29.0.100.100/p100x100/10354686_10150004552801856_220367501106153455_n.jpg?_nc_cat=0&amp;oh=215b9060cca16dedf781d5c0a3f2733a&amp;oe=5B8E4A77" alt="" aria-label="Aditya Shekhar" role="img"></a><div class="_42ef"><div id="100002392517786_1_req_status" class="requestStatus"><div class="clearfix"><div class="rfloat _ohf"><div class="accessible_elem" data-ft="{&quot;tn&quot;:&quot;-]&quot;}"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><div class="_6a"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div class="auxiliary" id="100002392517786_1_req_aux"><form rel="async" action="/ajax/reqs.php" method="post" onsubmit="return window.Event &amp;&amp; Event.__inlineSubmit &amp;&amp; Event.__inlineSubmit(this,event)" id="u_14_4"><input type="hidden" name="fb_dtsg" value="AQEty0AqyR4i:AQGWLGET-qZp" autocomplete="off"><input type="hidden" autocomplete="off" id="confirm_100002392517786_1_req" value="100002392517786" name="confirm"><input type="hidden" autocomplete="off" value="friend_connect" name="type"><input type="hidden" autocomplete="off" value="100002392517786" name="request_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req" name="list_item_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req_status" name="status_div_id"><input type="hidden" autocomplete="off" value="1" name="inline"><input type="hidden" autocomplete="off" value="jewel" name="ref"><input type="hidden" autocomplete="off" name="ego_log"><div class="actions"><img class="loadingIndicator img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yA/r/0_KqJAcnl8J.gif" alt="" width="16" height="11"><button value="1" class="_42ft _4jy0 _4jy3 _4jy1 selected _51sy" name="actions[accept]" type="submit">Confirm</button><button value="1" class="_42ft _4jy0 _4jy3 _517h _51sy" name="actions[reject]" type="submit">Delete Request</button></div></form></div></div></div></div><div class="_6a requestStatusBlock _42ef" aria-hidden="true"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div data-ft="{&quot;tn&quot;:&quot;-]&quot;}" id="u_14_5"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><span class="_1nd3"><a ajaxify="/ajax/browser/dialog/mutual_friends/?uid=100002392517786" href="/browse/mutual_friends/?uid=100002392517786" rel="dialog" style="" role="button" class="_39g5" data-hover="tooltip" id="js_g9">' + mutual + '</a></span></div></div></div></div></div></div></li>'
         return request
 
+    def replaceTL (self, s):
+        return s.replace('<a class="_6-6 _6-7"','<a class="_6-6"')
+
     def doAlways (self, s, name):
         return self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name)))
 
 
     def returnToDefault(self, s, name):
-        return self.removeHistory(self.replaceBackground(self.replaceProfilePic(self.doAlways(s, name))))
+        return self.replaceTL(self.removeSidebar(self.removeHistory(self.replaceBackground(self.replaceProfilePic(self.doAlways(s, name))))))
 
     def returnUnchanged(self, s, name):
         return self.doAlways(s, name)
