@@ -11,7 +11,12 @@ def runner(sleeptime):
         try:
             f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/', sleeptime)
             break
-        except IndexError:
-            runner(sleeptime + 1)
+        except IndexError as err:
+            if sleeptime < 25:
+                runner(sleeptime + 1)
+            else:
+                print("IndexError: {0}".format(err))
+
+
 
 runner(1)
