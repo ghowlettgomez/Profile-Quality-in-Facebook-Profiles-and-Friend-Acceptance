@@ -48,10 +48,18 @@ class HTML_Editor(object):
         requestButton = '<button value="1" class="_42ft _4jy0 FriendRequestIncoming _52nf _4jy4 _517h _9c6" type="submit" id="u_ps_fetchstream_17_1_7" aria-controls="js_2dz" aria-haspopup="true" aria-describedby="js_2e0"><i class="_3-8_ img sp_9qsyMvYUWch_2x sx_10eb3e"></i>Respond to Friend Request</button>'
         startAndEnd = self.getStartAndEnd(s, '<button class="_42ft _4jy0 FriendRequestAdd addButton _4jy4 _517h _9c6', '</button>')
         return s[0:startAndEnd[0]] + requestButton + s[startAndEnd[1]:len(s)]
+    
+    def removeAddFriendBanner (self, s):
+        startAndEnd = self.getStartAndEnd(s, '<div class="escapeHatchMinimal', '<div id="fbSuggestionsHatchPlaceHolder">')
+        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
     def nameInMenu(self, s, name):
         startAndEnd = self.getStartAndEnd(s, '<span class="_1vp5"', '</span>')
-        return s[0:startAndEnd[0]] + '<span class="_1vp5">' + name + '</span>' + s[startAndEnd[1]:len(s)]
+        person = s[0:startAndEnd[0]] + '<span class="_1vp5">' + name + '</span>' + s[startAndEnd[1]:len(s)]
+        startAndEndSearchFull = self.getStartAndEnd(person, '<div class="_5861', '</div></div></div></div>')
+        fullSearch = person[startAndEndSearchFull[0]:startAndEndSearchFull[1]]
+        startAndEndName = self.getStartAndEnd(fullSearch, 'value="', '"')
+        return person[0:startAndEndSearchFull[0]] + fullSearch[0:startAndEndName[0]] + 'value="' + self.getName(person) + fullSearch[startAndEndName[1]:len(fullSearch)] + person[startAndEndSearchFull[1]:len(person)]
 
     def alterSmallRequest (self, name, friends):
         if friends <= 0:

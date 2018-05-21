@@ -30,7 +30,7 @@ class FB_Profile_Driver():
 		friend_body_html = self.access_friend(friends_list)
 		'''imgurl = self.editor.saveProfilePic(friend_body_html)
 		self.resizer.resizeimage(imgurl, path)'''
-		edited_body_html = self.editor.returnToDefault(friend_body_html)
+		edited_body_html = self.editor.nameInMenu(friend_body_html, 'TEST')
 		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
 
