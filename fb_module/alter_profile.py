@@ -39,8 +39,11 @@ class HTML_Editor(object):
         return s[0:startAndEnd[0]] + defaultBackground + s[startAndEnd[1]:len(s)]
 
     def removeHistory(self, s):
-        startAndEnd = self.getStartAndEnd(s, '<div class="_5nb8"', '<div class="_1vc-"')
-        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
+        startAndEnd = self.getStartAndEnd(s, '<ol class="_2t4u clearfix', '</ol>')
+        name = self.getName(s)
+        first_name = name.split(' ')[0]
+        placeholder_history = '<ol class="_2t4u clearfix" data-referrer="pagelet_timeline_recent_ocm" id="u_0_1j_story"><div class="_5pcb _4b0l"></div><div class="mbm _5kxd"><div class="_70l"><div class="_57fp" data-ft="{&quot;tn&quot;:&quot;C&quot;}"><div class="fsm fwn fcg"><h3 class="_71u _70n _5r0_">No recent posts</h3></div></div></div><div class="_5kxe">To see posts on <span class="blueName">' + first_name + "</span>'s timeline, accept their friend request.</div></div>"
+        return s[0:startAndEnd[0]] + placeholder_history + s[startAndEnd[1]:len(s)]
 
     def createRequestHeader(self, s):
         name = self.getName(s)
