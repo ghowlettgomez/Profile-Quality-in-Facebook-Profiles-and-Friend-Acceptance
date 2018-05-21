@@ -15,18 +15,18 @@ f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
 def runner(sleeptime,openrequests):
     while True:
         try:
-            f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/', sleeptime, openrequests)
+            f.run('https://www.facebook.com/profile.php?id=100008426081012', 'imgs/', sleeptime, openrequests)
             break
         except IndexError as err:
             if sleeptime < 25:
                 print("IndexError iter " . sleeptime)
-                runner(sleeptime + 1)
+                runner(sleeptime + 1,openreqs)
             else:
                 print("IndexError: {0}".format(err))
         except ValueError as err:
             if sleeptime < 25:
                 print("ValueError iter " . sleeptime)
-                runner(sleeptime + 1)
+                runner(sleeptime + 1,openreqs)
             else:
                 print("ValueError: {0}".format(err))
 
