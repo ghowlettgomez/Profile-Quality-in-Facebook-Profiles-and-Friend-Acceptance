@@ -24,23 +24,23 @@ class FB_Profile_Driver():
 		self.resizer = Photo_Resizer()
 		self.access_profile()
     
-    def run_full(self, body_html, path, type):
-        profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-        edited_body_html = profile_type_list[type](friend_body_html, 'TEST')
-        self.load_body_html(edited_body_html)
-        self.take_screenshot_full(path)
+    	def run_full(self, body_html, path, type):
+        	profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
+        	edited_body_html = profile_type_list[type](friend_body_html, 'TEST')
+        	self.load_body_html(edited_body_html)
+        	self.take_screenshot_full(path)
     
-    def run_small(self, body_html, path, type):
-        imgurl = self.editor.saveProfilePic(friend_body_html)
-        self.resizer.resizeimage(imgurl, path)
-        self.take_screenshot_small(path)
+    	def run_small(self, body_html, path, type):
+        	imgurl = self.editor.saveProfilePic(friend_body_html)
+        	self.resizer.resizeimage(imgurl, path)
+        	self.take_screenshot_small(path)
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url, path, sleeptime, type):
 		friends_list = self.access_friends_of_profile(profile_url)
-        htmls = self.access_friend(friends_list,sleeptime)
-        self.run_full(htmls[0], path, type)
-        self.run_small(htmls[1], path, type)
+        	htmls = self.access_friend(friends_list,sleeptime)
+        	self.run_full(htmls[0], path, type)
+        	self.run_small(htmls[1], path, type)
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
@@ -100,9 +100,9 @@ class FB_Profile_Driver():
 		sleep(5)
 		self.browser.get_screenshot_as_file(path + 'screenshot.png')
 
-    def take_screenshot_small(self, path):
-        sleep (5)
-        image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
+    	def take_screenshot_small(self, path):
+        	sleep (5)
+        	image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
 
 
 
