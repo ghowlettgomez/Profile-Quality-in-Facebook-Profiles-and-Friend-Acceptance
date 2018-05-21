@@ -62,10 +62,10 @@ class HTML_Editor(object):
         return request
 
     def returnToDefault(self, s):
-        return self.removeHistory(replaceBackground(replaceProfilePic(nameInMenu(profile, 'TEST'))))
+        return self.removeHistory(self.replaceBackground(self.replaceProfilePic(self.nameInMenu(s, 'TEST'))))
 
     def returnUnchanged(self, s):
-        return self.nameInMenu(profile, 'TEST')
+        return self.nameInMenu(s, 'TEST')
 
     def onlyPictures(self, s):
-        return self.removeHistory(nameInMenu(profile, 'TEST'))
+        return self.removeHistory(self.nameInMenu(s, 'TEST'))
