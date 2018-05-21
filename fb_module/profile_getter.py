@@ -28,8 +28,9 @@ class FB_Profile_Driver():
 	def run(self, profile_url, path):
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list)
-		'''imgurl = self.editor.saveProfilePic(friend_body_html)
-		self.resizer.resizeimage(imgurl, path)'''
+		imgurl = self.editor.saveProfilePic(friend_body_html)
+		print('url:' + imgurl)
+		self.resizer.resizeimage(imgurl, path)
 		sleep(5)
 		profile_type = random.randint(0, 4)
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
@@ -91,4 +92,4 @@ class FB_Profile_Driver():
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot(self, path):
 		sleep(5)
-		self.browser.get_screenshot_as_file(path)
+		self.browser.get_screenshot_as_file(path + 'screenshot.png')
