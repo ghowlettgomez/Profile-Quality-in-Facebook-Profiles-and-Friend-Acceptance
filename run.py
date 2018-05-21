@@ -11,7 +11,7 @@ f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
 def runner(profile_url, path, sleeptime, type):
     while True:
         try:
-            f.run(profile_url, 'imgs/', sleeptime, type)
+            f.run(profile_url, path, sleeptime, type)
             break
         except IndexError as err:
             if sleeptime < 25:
@@ -27,4 +27,4 @@ def runner(profile_url, path, sleeptime, type):
                 print("ValueError: {0}".format(err))
 
 
-runner('https://www.facebook.com/profile.php?id=100008426081012', 'imgs/', 1, random.randint(0,4))
+runner('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/', 1, random.randint(0,4))
