@@ -29,7 +29,6 @@ class FB_Profile_Driver():
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list,sleeptime)
 		imgurl = self.editor.saveProfilePic(friend_body_html)
-		print('url:' + imgurl)
 		self.resizer.resizeimage(imgurl, path)
 		sleep(5)
 		profile_type = random.randint(0, 4)
