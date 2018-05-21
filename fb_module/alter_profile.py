@@ -69,4 +69,3 @@ class HTML_Editor(object):
 
     def onlyPictures(self, s):
         return self.removeHistory(nameInMenu(profile, 'TEST'))
-

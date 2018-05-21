@@ -75,6 +75,7 @@ class FB_Profile_Driver():
 		random_int = random.randint(0, num_friends)
 		random_friend = friends_list[random_int]
 		random_friend.find_element_by_tag_name("a").click()
+		sleep(5)
 		return self.browser.execute_script("return document.body.innerHTML")
 
 
