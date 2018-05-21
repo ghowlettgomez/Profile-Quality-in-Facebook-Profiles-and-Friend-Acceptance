@@ -82,7 +82,7 @@ class HTML_Editor(object):
         return s.replace('<a class="_6-6 _6-7"','<a class="_6-6"')
 
     def doAlways (self, s, name):
-        return self.createRequestHeader(self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name))))
+        return self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name)))
 
 
     def returnToDefault(self, s, name):
