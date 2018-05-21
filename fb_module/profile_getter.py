@@ -23,25 +23,24 @@ class FB_Profile_Driver():
 		self.editor = HTML_Editor()
 		self.resizer = Photo_Resizer()
 		self.access_profile()
+    
+    def run_full(self, body_html, path, type):
+        profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
+        edited_body_html = profile_type_list[type](friend_body_html, 'TEST')
+        self.load_body_html(edited_body_html)
+        self.take_screenshot_full(path)
+    
+    def run_small(self, body_html, path, type):
+        imgurl = self.editor.saveProfilePic(friend_body_html)
+        self.resizer.resizeimage(imgurl, path)
+        self.take_screenshot_small(path)
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
-	def run(self, profile_url, path, sleeptime,openrequests):
+	def run(self, profile_url, path, sleeptime, type):
 		friends_list = self.access_friends_of_profile(profile_url)
-		if openrequests:
-			friend_body_html = self.access_friend_requests(friends_list,sleeptime)
-			imgurl = self.editor.saveProfilePic(friend_body_html)
-			self.resizer.resizeimage(imgurl, path)
-		else:
-			friend_body_html = self.access_friend(friends_list,sleeptime)
-		sleep(5)
-		profile_type = random.randint(0, 4)
-		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		print (profile_type)
-		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
-		if openrequests:
-			edited_body_html = self.editor.alterSmallRequest("TEST",random.randint(1,50),"imgs/resideImage.jpg")
-		self.load_body_html(edited_body_html)
-		self.take_screenshot(path)
+        htmls = self.access_friend(friends_list,sleeptime)
+        self.run_full(htmls[0], path, type)
+        self.run_small(htmls[1], path, type)
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
@@ -85,17 +84,11 @@ class FB_Profile_Driver():
 		random_friend = friends_list[random_int]
 		random_friend.find_element_by_tag_name("a").click()
 		sleep(5*sleeptime)
-		return self.browser.execute_script("return document.body.innerHTML")
-
-	def access_friend_requests(self, friends_list, sleeptime):
-		num_friends = len(friends_list)
-		random_int = random.randint(0, num_friends)
-		random_friend = friends_list[random_int]
-		random_friend.find_element_by_tag_name("a").click()
-		sleep(5*sleeptime)
-		self.browser.find_element_by_name("requests").click();
-		sleep(5*sleeptime)
-		return self.browser.execute_script("return document.body.innerHTML")
+        html_full = self.browser.execute_script("return document.body.innerHTML")
+        self.browser.find_element_by_name("requests").click();
+        sleep(5*sleeptime)
+        html_small = self.browser.execute_script("return document.body.innerHTML")
+        return [html_full, html_small]
 
 	"""Given the inner html of the body, load that html"""
 	def load_body_html(self, body_html):
@@ -103,6 +96,14 @@ class FB_Profile_Driver():
 		sleep(5)
 
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
-	def take_screenshot(self, path):
+	def take_screenshot_full(self, path):
 		sleep(5)
 		self.browser.get_screenshot_as_file(path + 'screenshot.png')
+
+    def take_screenshot_small(self, path):
+        sleep (5)
+        image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
+
+
+
+
