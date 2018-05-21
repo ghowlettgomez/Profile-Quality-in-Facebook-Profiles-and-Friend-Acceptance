@@ -26,12 +26,12 @@ class FB_Profile_Driver():
 
 	def run_full(self, body_html, path, type):
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		edited_body_html = profile_type_list[type](friend_body_html, 'TEST')
+		edited_body_html = profile_type_list[type](body_html, 'TEST')
 		self.load_body_html(edited_body_html)
 		self.take_screenshot_full(path)
 
 	def run_small(self, body_html, path, type):
-		imgurl = self.editor.saveProfilePic(friend_body_html)
+		imgurl = self.editor.saveProfilePic(body_html)
 		self.resizer.resizeimage(imgurl, path)
 		self.take_screenshot_small(path)
 
