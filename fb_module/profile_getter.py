@@ -31,7 +31,10 @@ class FB_Profile_Driver():
 		'''imgurl = self.editor.saveProfilePic(friend_body_html)
 		self.resizer.resizeimage(imgurl, path)'''
 		sleep(5)
-		edited_body_html = self.editor.returnToDefault(friend_body_html, 'TEST')
+		profile_type = random.randint(0, 4)
+		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
+		print (profile_type)
+		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
 		self.load_body_html(edited_body_html)
 		self.take_screenshot(path)
 

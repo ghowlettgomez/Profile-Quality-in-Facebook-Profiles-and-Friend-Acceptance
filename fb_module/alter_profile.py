@@ -87,5 +87,11 @@ class HTML_Editor(object):
     def returnUnchanged(self, s, name):
         return self.doAlways(s, name)
 
-    def onlyPictures(self, s, name):
+    def onlySidebar(self, s, name):
         return self.removeHistory(self.doAlways(s, name))
+
+    def onlyPosts (self, s, name):
+        return self.removeSidebar(self.doAlways(s, name))
+
+    def removeAllHistory (self, s, name):
+        return self.removeSidebar(self.removeHistory(self.doAlways(s, name)))
