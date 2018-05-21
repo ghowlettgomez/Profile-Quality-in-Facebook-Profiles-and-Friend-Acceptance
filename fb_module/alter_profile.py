@@ -7,8 +7,11 @@ class HTML_Editor(object):
 
     def getStartAndEnd(self, s, start, end):
         indices = []
-        indices.append(s.index(start))
-        indices.append(s.index(end, indices[0]))
+        try:
+            indices.append(s.index(start))
+            indices.append(s.index(end, indices[0]))
+        except ValueError:
+            return [0, 0]
         return indices
 
     def getName(self, s):

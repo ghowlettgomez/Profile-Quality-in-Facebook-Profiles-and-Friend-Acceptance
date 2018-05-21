@@ -29,10 +29,10 @@ class FB_Profile_Driver():
 		friends_list = self.access_friends_of_profile(profile_url)
 		if openrequests:
 			friend_body_html = self.access_friend_requests(friends_list,sleeptime)
+			imgurl = self.editor.saveProfilePic(friend_body_html)
+			self.resizer.resizeimage(imgurl, path)
 		else:
 			friend_body_html = self.access_friend(friends_list,sleeptime)
-		imgurl = self.editor.saveProfilePic(friend_body_html)
-		self.resizer.resizeimage(imgurl, path)
 		sleep(5)
 		profile_type = random.randint(0, 4)
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
