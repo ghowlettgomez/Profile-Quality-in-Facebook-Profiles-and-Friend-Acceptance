@@ -33,13 +33,15 @@ class FB_Profile_Driver():
 	def run_small(self, body_html, path, type):
 		imgurl = self.editor.saveProfilePic(body_html)
 		self.resizer.resizeimage(imgurl, path)
+		small_html = self.editor.replaceRequests(body_html,"TEST")
+		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
+
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url, path, sleeptime, type):
 		friends_list = self.access_friends_of_profile(profile_url)
 		small_html = self.access_friend_small(friends_list,sleeptime)
-		small_html = self.editor.replaceRequests(small_html,"TEST")
 		self.run_small(small_html, path, type)
 		full_html = self.access_friend_full(sleeptime)
 		self.run_full(full_html, path, type)

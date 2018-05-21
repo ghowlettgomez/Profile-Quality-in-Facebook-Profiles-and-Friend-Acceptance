@@ -90,7 +90,7 @@ class HTML_Editor(object):
 
     def replaceRequests (self, s, name):
         newReqs = self.alterSmallRequest(name,random.randint(1,50),"imgs/resizedImage.jpg")
-        startAndEnd = self.getStartAndEnd(s,'<li class="empty listGray">','</li>')
+        startAndEnd = self.getStartAndEnd(s,'<ul class="uiList _4kg _4ks">','<li class')
         return s[0:startAndEnd[0]] + newReqs + s[startAndEnd[1]:len(s)]
 
     def replaceTL (self, s):
