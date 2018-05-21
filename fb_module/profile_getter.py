@@ -38,9 +38,10 @@ class FB_Profile_Driver():
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url, path, sleeptime, type):
 		friends_list = self.access_friends_of_profile(profile_url)
-		htmls = self.access_friend(friends_list,sleeptime)
-		self.run_full(htmls[0], path, type)
-		self.run_small(htmls[1], path, type)
+		full_html = self.access_friend_full(friends_list,sleeptime)
+		self.run_full(full_html, path, type)
+        small_html = self.access_friend_small(sleeptime)
+		self.run_small(small_html, path, type)
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
@@ -78,17 +79,18 @@ class FB_Profile_Driver():
 	"""Given a list of friends, access the profile of a random friend
 		and get the inner html of the body.
 	"""
-	def access_friend(self, friends_list, sleeptime):
+	def access_friend_full(self, friends_list, sleeptime):
 		num_friends = len(friends_list)
 		random_int = random.randint(0, num_friends)
 		random_friend = friends_list[random_int]
 		random_friend.find_element_by_tag_name("a").click()
 		sleep(5*sleeptime)
-		html_full = self.browser.execute_script("return document.body.innerHTML")
-		self.browser.find_element_by_name("requests").click();
+		return self.browser.execute_script("return document.body.innerHTML")
+
+	def access_friend_small(self, sleeptime):
+		self.browser.find_element_by_name("requests").click()
 		sleep(5*sleeptime)
-		html_small = self.browser.execute_script("return document.body.innerHTML")
-		return [html_full, html_small]
+		return self.browser.execute_script("return document.body.innterHTML")
 
 	"""Given the inner html of the body, load that html"""
 	def load_body_html(self, body_html):
