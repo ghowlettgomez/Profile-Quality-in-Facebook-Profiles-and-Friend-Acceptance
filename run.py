@@ -4,12 +4,14 @@ f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
 
 x = 0
 
-def runner():
+# sleeptime is a multiplier
+
+def runner(sleeptime):
     while True:
         try:
-            f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/screenshot.png')
+            f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/screenshot.png',sleeptime)
             break
         except IndexError:
-            runner()
+            runner(sleeptime + 1)
 
-runner()
+runner(1)

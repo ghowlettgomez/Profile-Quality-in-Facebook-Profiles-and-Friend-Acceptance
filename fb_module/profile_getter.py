@@ -25,9 +25,9 @@ class FB_Profile_Driver():
 		self.access_profile()
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
-	def run(self, profile_url, path):
+	def run(self, profile_url, path, sleeptime):
 		friends_list = self.access_friends_of_profile(profile_url)
-		friend_body_html = self.access_friend(friends_list)
+		friend_body_html = self.access_friend(friends_list,sleeptime)
 		imgurl = self.editor.saveProfilePic(friend_body_html)
 		print('url:' + imgurl)
 		self.resizer.resizeimage(imgurl, path)
@@ -75,12 +75,12 @@ class FB_Profile_Driver():
 	"""Given a list of friends, access the profile of a random friend
 		and get the inner html of the body.
 	"""
-	def access_friend(self, friends_list):
+	def access_friend(self, friends_list, sleeptime):
 		num_friends = len(friends_list)
 		random_int = random.randint(0, num_friends)
 		random_friend = friends_list[random_int]
 		random_friend.find_element_by_tag_name("a").click()
-		sleep(5)
+		sleep(5*sleeptime)
 		return self.browser.execute_script("return document.body.innerHTML")
 
 
