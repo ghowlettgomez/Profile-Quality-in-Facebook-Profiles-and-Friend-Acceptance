@@ -28,8 +28,8 @@ class HTML_Editor(object):
 
     def replaceBackground(self, s):
         name = self.getName(s)
-        defaultBackground = '<div class="cover" id="u_0_u"><div class="coverEmptyWrap _37fg coverImage coverNoImage" id="fbCoverImageContainer" data-cropped="1"><img class="coverChangeThrobber img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/RozqvGf0LV-.gif" alt="" width="16" height="16"></div><div class="_2nlj _3x7_ _2xc6"><h1 class="_2nlv"><span class="_2t_q" id="fb-timeline-cover-name" data-testid="profile_name_in_profile_page"><a class="_2nlw _2nlv" href="https://www.facebook.com/sadflj.segilua.7">' + name + '</a>'
-        startAndEnd = self.getStartAndEnd(s, '<div class="cover"', '</a>')
+        defaultBackground = '<div class="cover" id="u_jsonp_7_0"><div class="coverEmptyWrap _37fg coverImage coverNoImage" id="fbCoverImageContainer" data-cropped="1"><img class="coverChangeThrobber img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/RozqvGf0LV-.gif" alt="" width="16" height="16"></div><div class="_2nlj _3x7_ _2xc6"><h1 class="_2nlv"><span class="_2t_q" id="fb-timeline-cover-name" data-testid="profile_name_in_profile_page"><a class="_2nlw _2nlv" href="https://www.facebook.com/profile.php?id=100008426081012">' + name + '</a></span><span class="_2nly"></span></h1></div></div>'
+        startAndEnd = self.getStartAndEnd(s, '<div class="cover"', '</span></h1></div></div>')
         return s[0:startAndEnd[0]] + defaultBackground + s[startAndEnd[1]:len(s)]
 
     def removeHistory(self, s):
