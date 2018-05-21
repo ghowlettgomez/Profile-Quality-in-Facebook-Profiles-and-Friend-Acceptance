@@ -9,7 +9,7 @@ x = 0
 def runner(sleeptime):
     while True:
         try:
-            f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/screenshot.png',sleeptime)
+            f.run('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/', sleeptime)
             break
         except IndexError:
             runner(sleeptime + 1)

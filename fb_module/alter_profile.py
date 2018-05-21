@@ -17,14 +17,22 @@ class HTML_Editor(object):
         return s[nameStart+1:nameEnd]
 
     def replaceProfilePic(self, s):
-        startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
+        try:
+            startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
+        except ValueError:
+            startAndEnd = self.getStartAndEnd(s, '<img class="silhouette _11kf', '>')
         return s[0:startAndEnd[0]] + self.defaultPic + s[startAndEnd[1]:len(s)]
 
     def saveProfilePic(self, s):
-        startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
+        try:
+            startAndEnd = self.getStartAndEnd(s, '<img class="_11kf', '>')
+        except ValueError:
+            startAndEnd = self.getStartAndEnd(s, '<img class="silhouette _11kf', '>')
         picElement = s[startAndEnd[0]:startAndEnd[1]]
-        startAndEndPic = self.getStartAndEnd(picElement, 'src="', '"')
-        return picElement[startAndEndPic[0]+5:startAndEndPic[1]]
+        print (picElement)
+        startAndEndPic = self.getStartAndEnd(picElement, 'https', '"')
+        print (startAndEndPic)
+        return picElement[startAndEndPic[0]:startAndEndPic[1]].replace('amp;', '')
 
     def replaceBackground(self, s):
         name = self.getName(s)
