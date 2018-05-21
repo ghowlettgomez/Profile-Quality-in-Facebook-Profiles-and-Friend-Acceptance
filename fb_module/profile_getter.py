@@ -25,9 +25,12 @@ class FB_Profile_Driver():
 		self.access_profile()
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
-	def run(self, profile_url, path, sleeptime):
+	def run(self, profile_url, path, sleeptime,openrequests):
 		friends_list = self.access_friends_of_profile(profile_url)
-		friend_body_html = self.access_friend_requests(friends_list,sleeptime)
+		if openrequests:
+			friend_body_html = self.access_friend_requests(friends_list,sleeptime)
+		else:
+			friend_body_html = self.access_friend(friends_list,sleeptime)
 		imgurl = self.editor.saveProfilePic(friend_body_html)
 		self.resizer.resizeimage(imgurl, path)
 		sleep(5)
