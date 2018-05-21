@@ -1,6 +1,9 @@
+import random;
+
 """ Given a body html in the form of a string, edits the html in certain ways.
 """
 class HTML_Editor(object):
+
 
     defaultPic = '<img class="_11kf img" src="https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-1/c94.0.320.320/p320x320/10354686_10150004552801856_220367501106153455_n.jpg?_nc_cat=0&amp;oh=63eaf30685976e364570705952740b4f&amp;oe=5B9BDFDE"'
     requestHeader = '<div class="_5h60" id="pagelet_above_header_timeline" data-referrer="pagelet_above_header_timeline" style="top: 0px;"><div class="_2pi6 _52jv" id="u_fetchstream_3_5"><span class="_2iem"><span class="_35ow"><span class="_50f7">Sadflj Segilua</span> sent you a friend request</span><a role="button" class="_42ft _4jy0 _4jy4 _4jy1 selected _51sy" href="/ajax/add_friend/action.php?to_friend=100025753903858&amp;action=confirm&amp;ref_param=%2Fprofile.php&amp;floc=profile_box&amp;frefs%5B0%5D=jewel" rel="async-post" data-hover="tooltip" data-tooltip-content="Confirm Request" id="js_i2"><img class="_2vhe hidden_elem _3-8_ img" alt="Confirm Request" src="https://static.xx.fbcdn.net/rsrc.php/v3/yT/r/9X_pFYHCHN4.png" width="23" height="23"><span class="_2vhc">Confirm Request</span></a><a role="button" class="_42ft _4jy0 _4jy4 _517h _51sy" href="/ajax/profile/connect/reject.php?profile_id=100025753903858&amp;ref=%2Fprofile.php&amp;floc=profile_box&amp;frefs%5B0%5D=jewel" rel="async-post" id="u_fetchstream_3_4" data-hover="tooltip" data-tooltip-content="Delete Request"><i class="_2vhf hidden_elem _3-8_ img sp_xfcCes0Za9Q_2x sx_83b7a3"><u>Delete Request</u></i><span class="_2vhd">Delete Request</span></a></span></div></div>'
@@ -86,7 +89,7 @@ class HTML_Editor(object):
         return request
 
     def replaceRequests (self, s, name):
-        newReqs = self.editor.alterSmallRequest("TEST",random.randint(1,50),"imgs/resizedImage.jpg")
+        newReqs = self.alterSmallRequest(name,random.randint(1,50),"imgs/resizedImage.jpg")
         startAndEnd = self.getStartAndEnd(s,'<li class="empty listGray">','</li>')
         return s[0:startAndEnd[0]] + newReqs + s[startAndEnd[1]:len(s)]
 

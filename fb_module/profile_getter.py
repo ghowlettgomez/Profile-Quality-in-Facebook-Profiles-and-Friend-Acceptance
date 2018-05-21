@@ -39,6 +39,7 @@ class FB_Profile_Driver():
 	def run(self, profile_url, path, sleeptime, type):
 		friends_list = self.access_friends_of_profile(profile_url)
 		small_html = self.access_friend_small(friends_list,sleeptime)
+		small_html = self.editor.replaceRequests(small_html,"TEST")
 		self.run_small(small_html, path, type)
 		full_html = self.access_friend_full(sleeptime)
 		self.run_full(full_html, path, type)
