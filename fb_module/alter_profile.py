@@ -18,8 +18,8 @@ class HTML_Editor(object):
         return indices
 
     def getName(self, s):
-        nameStart = self.getStartAndEnd(s, '<a class="_2nlw _2nlv"', '>')[1]
-        nameEnd = self.getStartAndEnd(s, '<a class="_2nlw _2nlv"', '</a>')[1]
+        nameStart = self.getStartAndEnd(s, "_2nlw _2nlv", '>')[1]
+        nameEnd = self.getStartAndEnd(s, "_2nlw _2nlv", '</a>')[1]
         return s[nameStart+1:nameEnd]
 
     def replaceProfilePic(self, s):
@@ -88,10 +88,14 @@ class HTML_Editor(object):
         request = '<li class="objectListItem" id="01392847102938471209587012398471029384701_1_req"><div class="clearfix" data-ft="{&quot;tn&quot;:&quot;-Z&quot;}"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel" tabindex="-1" data-ft="{&quot;tn&quot;:&quot;-^&quot;}" class="_8o _8s lfloat _ohe" id="u_14_3"><img class="_s0 _4ooo _rw img" src="' + url + '" alt="" aria-label="Aditya Shekhar" role="img"></a><div class="_42ef"><div id="100002392517786_1_req_status" class="requestStatus"><div class="clearfix"><div class="rfloat _ohf"><div class="accessible_elem" data-ft="{&quot;tn&quot;:&quot;-]&quot;}"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><div class="_6a"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div class="auxiliary" id="100002392517786_1_req_aux"><form rel="async" action="/ajax/reqs.php" method="post" onsubmit="return window.Event &amp;&amp; Event.__inlineSubmit &amp;&amp; Event.__inlineSubmit(this,event)" id="u_14_4"><input type="hidden" name="fb_dtsg" value="AQEty0AqyR4i:AQGWLGET-qZp" autocomplete="off"><input type="hidden" autocomplete="off" id="confirm_100002392517786_1_req" value="100002392517786" name="confirm"><input type="hidden" autocomplete="off" value="friend_connect" name="type"><input type="hidden" autocomplete="off" value="100002392517786" name="request_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req" name="list_item_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req_status" name="status_div_id"><input type="hidden" autocomplete="off" value="1" name="inline"><input type="hidden" autocomplete="off" value="jewel" name="ref"><input type="hidden" autocomplete="off" name="ego_log"><div class="actions"><img class="loadingIndicator img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yA/r/0_KqJAcnl8J.gif" alt="" width="16" height="11"><button value="1" class="_42ft _4jy0 _4jy3 _4jy1 selected _51sy" name="actions[accept]" type="submit">Confirm</button><button value="1" class="_42ft _4jy0 _4jy3 _517h _51sy" name="actions[reject]" type="submit">Delete Request</button></div></form></div></div></div></div><div class="_6a requestStatusBlock _42ef" aria-hidden="true"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div data-ft="{&quot;tn&quot;:&quot;-]&quot;}" id="u_14_5"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><span class="_1nd3"><a ajaxify="/ajax/browser/dialog/mutual_friends/?uid=100002392517786" href="/browse/mutual_friends/?uid=100002392517786" rel="dialog" style="" role="button" class="_39g5" data-hover="tooltip" id="js_g9">' + mutual + '</a></span></div></div></div></div></div></div></li>'
         return request
 
-    def replaceRequests (self, s, name):
-        newReqs = self.alterSmallRequest(name,random.randint(1,50),"imgs/resizedImage.jpg")
+    def replaceRequests (self, s, name, path):
+        newReqs = self.alterSmallRequest(name,random.randint(2,50),path + 'resizedImage.jpg')
         startAndEnd = self.getStartAndEnd(s,'<ul class="uiList _4kg _4ks">','<li class')
-        return s[0:startAndEnd[0]] + newReqs + s[startAndEnd[1]:len(s)]
+        return s[0:startAndEnd[0]] + '<ul class="uiList _4kg _4ks">' + newReqs +  s[startAndEnd[1]:len(s)]
+    
+    def deleteRequestDropdown (self, s):
+        startAndEnd = self.getStartAndEnd(s, '<div id="fbRequestsFlyout', '<button class="HideTogger')
+        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
     def replaceTL (self, s):
         return s.replace('<a class="_6-6 _6-7"','<a class="_6-6"')

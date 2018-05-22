@@ -33,7 +33,7 @@ class FB_Profile_Driver():
 	def run_small(self, body_html, path, type):
 		imgurl = self.editor.saveProfilePic(body_html)
 		self.resizer.resizeimage(imgurl, path)
-		small_html = self.editor.replaceRequests(body_html,"TEST")
+		small_html = self.editor.replaceRequests(body_html,"TEST", path)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
@@ -43,7 +43,7 @@ class FB_Profile_Driver():
 		friends_list = self.access_friends_of_profile(profile_url)
 		small_html = self.access_friend_small(friends_list,sleeptime)
 		self.run_small(small_html, path, type)
-		full_html = self.access_friend_full(sleeptime)
+		full_html = self.editor.deleteRequestDropdown(small_html)
 		self.run_full(full_html, path, type)
 
 
@@ -93,11 +93,6 @@ class FB_Profile_Driver():
 		sleep(5*sleeptime)
 		return self.browser.execute_script("return document.body.innerHTML")
 
-	def access_friend_full(self, sleeptime):
-		self.browser.find_element_by_name("requests").click()
-		sleep(5*sleeptime)
-		return self.browser.execute_script("return document.body.innterHTML")
-
 	"""Given the inner html of the body, load that html"""
 	def load_body_html(self, body_html):
 		self.browser.execute_script("document.body.innerHTML = %s" % json.dumps(body_html))
@@ -111,3 +106,4 @@ class FB_Profile_Driver():
 	def take_screenshot_small(self, path):
 		sleep (5)
 		image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
+		print (image)
