@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 from fb_module.alter_profile import HTML_Editor
 from fb_module.photoresizer import Photo_Resizer
 from time import sleep
@@ -29,21 +30,23 @@ class FB_Profile_Driver():
 		friends_list = self.access_friends_of_profile(profile_url)
 		friend_body_html = self.access_friend(friends_list)
 		imgurl = self.editor.saveProfilePic(friend_body_html)
-		print('url:' + imgurl)
+		'''print('url:' + imgurl)
 		self.resizer.resizeimage(imgurl, path)
 		sleep(5)
 		profile_type = random.randint(0, 4)
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
 		print (profile_type)
 		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
-		self.load_body_html(edited_body_html)
+		self.load_body_html(edited_body_html)'''
 		self.take_screenshot(path)
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
+		options = Options()
+		options.add_argument('-headless')
 		ffprofile = webdriver.FirefoxProfile()
 		ffprofile.set_preference("dom.webnotifications.enabled", False)
-		self.browser = webdriver.Firefox(ffprofile)
+		self.browser = webdriver.Firefox(ffprofile, firefox_options=options)
 		self.browser.get('https://www.facebook.com/')
 		sleep(1)
 		username_input = self.browser.find_element_by_id('email')
