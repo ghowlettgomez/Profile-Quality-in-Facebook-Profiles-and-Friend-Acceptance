@@ -18,9 +18,9 @@ def hello():
 def get_profile():
     profile_url = request.args.get('profile_url', None)
     f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
-    unique_id = uuid.uuid4().int
+    unique_id = str(uuid.uuid4())
     image_type = random.randint(0, 4)
-    run_args = [profile_url, '/tmp/' + str(unique_id), 1,image_type]
+    run_args = [profile_url, '/tmp/' + unique_id, 1,image_type]
     run_thread = threading.Thread(target=f.runner, args=run_args)
     run_thread.start()
     return jsonify(unique_id=unique_id,
@@ -29,12 +29,12 @@ def get_profile():
 @app.route("/get_little", methods=['GET'])
 def get_little():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], str(unique_id) + 'screenshot_small.png')
+    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_small.png')
 
 @app.route("/get_big", methods=['GET'])
 def get_big():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], str(unique_id) + 'screenshot_full.png')
+    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_full.png')
 
 if __name__ == '__main__':
     app.run()
