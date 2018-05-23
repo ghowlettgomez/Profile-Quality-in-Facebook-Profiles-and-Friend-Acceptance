@@ -29,12 +29,12 @@ def get_profile():
 @app.route("/get_little", methods=['GET'])
 def get_little():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_small.png')
+    return send_from_directory(app.config['UPLOAD_FOLDER'], str(unique_id) + 'screenshot_small.png')
 
 @app.route("/get_big", methods=['GET'])
 def get_big():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_full.png')
+    return send_from_directory(app.config['UPLOAD_FOLDER'], str(unique_id) + 'screenshot_full.png')
 
 if __name__ == '__main__':
     app.run()
