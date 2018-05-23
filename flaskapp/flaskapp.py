@@ -4,6 +4,7 @@ import uuid
 import threading
 import random
 import os
+import os.path
 
 """This is an apache based app. The tutorial we used is at
     https://www.datasciencebytes.com/bytes/2015/02/24/running-a-flask-app-on-aws-ec2/
@@ -30,12 +31,20 @@ def get_profile():
 @app.route("/get_little", methods=['GET'])
 def get_little():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_small.png')
+    file_location = app.config['UPLOAD_FOLDER'] + '/' + unique_id + 'screenshot_small.png'
+    if os.path.isfile(file_location):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_small.png')
+    else:
+        return "The screenshot is not loaded yet. Please wait a minute then reload the page."
 
 @app.route("/get_big", methods=['GET'])
 def get_big():
     unique_id = request.args.get('unique_id', None)
-    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_full.png')
+    file_location = app.config['UPLOAD_FOLDER'] + '/' + unique_id + 'screenshot_full.png'
+    if os.path.isfile(file_location):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_full.png')
+    else:
+        return "The screenshot is not loaded yet. Please wait a minute then reload the page."
 
 @app.route("/delete_screenshots", methods=['get'])
 def delete_screenshots():
