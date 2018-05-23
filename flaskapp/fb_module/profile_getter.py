@@ -77,10 +77,8 @@ class FB_Profile_Driver():
 		ffprofile.set_preference("dom.webnotifications.enabled", False)
 		self.browser = webdriver.Firefox(ffprofile, firefox_options=options, log_path=None)
 		self.browser.get('https://www.facebook.com/')
-		sleep(1)
 		username_input = self.browser.find_element_by_id('email')
 		username_input.send_keys(self.username)
-		sleep(1)
 		password_input = self.browser.find_element_by_id('pass')
 		password_input.send_keys(self.password)
 		login_input = self.browser.find_element_by_id('loginbutton')
@@ -98,7 +96,7 @@ class FB_Profile_Driver():
 		friends_len = 0
 		while True:
 			friends |= set(self.browser.find_elements_by_xpath("//div[@class='fsl fwb fcb']"))
-			if len(friends) == friends_len or friends_len > 500:
+			if len(friends) == friends_len or friends_len > 200:
 				return list(friends)
 			friends_len = len(friends)
 			self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -124,11 +122,9 @@ class FB_Profile_Driver():
 
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot_full(self, path):
-		sleep(5)
 		image = self.browser.find_element_by_xpath('/html/body').screenshot_as_png
 		open(path + 'screenshot_full.png', 'wb').write(image)
 
 	def take_screenshot_small(self, path):
-		sleep (5)
 		image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
 		open(path + 'screenshot_small.png', 'wb').write(image)
