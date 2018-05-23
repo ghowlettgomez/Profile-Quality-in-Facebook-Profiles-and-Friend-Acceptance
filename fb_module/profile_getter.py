@@ -32,9 +32,7 @@ class FB_Profile_Driver():
 		self.take_screenshot_full(path)
 
 	def run_small(self, body_html, path, type):
-		imgurl = self.editor.saveProfilePic(body_html)
-		self.resizer.resizeimage(imgurl, path)
-		small_html = self.editor.replaceRequests(body_html, path)
+		small_html = self.editor.replaceRequests(body_html)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
