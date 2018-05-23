@@ -58,13 +58,14 @@ class FB_Profile_Driver():
 				if sleeptime < 5:
 					print("IndexError iter " . sleeptime)
 					runner(sleeptime + 1,openreqs)
+					return
 				else:
 					print("IndexError: {0}".format(err))
 			except ValueError as err:
 				if sleeptime < 5:
 					print("ValueError iter " . sleeptime)
 					self.runner(sleeptime + 1,openreqs)
-					break
+					return
 				else:
 					print("ValueError: {0}".format(err))
 		self.browser.close()
