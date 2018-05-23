@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 from fb_module.alter_profile import HTML_Editor
 from time import sleep
 import random
@@ -21,6 +22,7 @@ class FB_Profile_Driver():
 		self.password = password
 		self.editor = HTML_Editor()
 
+<<<<<<< HEAD:fb_module/profile_getter.py
 	def run_full(self, body_html, path, type):
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
 		edited_body_html = profile_type_list[type](body_html, 'TEST')
@@ -64,12 +66,30 @@ class FB_Profile_Driver():
 					print("ValueError: {0}".format(err))
 		self.browser.close()
 
+=======
+	"""Given the url of a participant in the study, return a friend of theirs"""
+	def run(self, profile_url, path):
+		friends_list = self.access_friends_of_profile(profile_url)
+		friend_body_html = self.access_friend(friends_list)
+		imgurl = self.editor.saveProfilePic(friend_body_html)
+		'''print('url:' + imgurl)
+		self.resizer.resizeimage(imgurl, path)
+		sleep(5)
+		profile_type = random.randint(0, 4)
+		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
+		print (profile_type)
+		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
+		self.load_body_html(edited_body_html)'''
+		self.take_screenshot(path)
+>>>>>>> 8a2dc4cb73cca7fdfe8e95128e969a118f410b66:flaskapp/fb_module/profile_getter.py
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
+		options = Options()
+		options.add_argument('-headless')
 		ffprofile = webdriver.FirefoxProfile()
 		ffprofile.set_preference("dom.webnotifications.enabled", False)
-		self.browser = webdriver.Firefox(ffprofile)
+		self.browser = webdriver.Firefox(ffprofile, firefox_options=options, log_path=None)
 		self.browser.get('https://www.facebook.com/')
 		sleep(1)
 		username_input = self.browser.find_element_by_id('email')
