@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from fb_module.alter_profile import HTML_Editor
 from time import sleep
+import io
 import random
 import json
 
@@ -22,16 +23,14 @@ class FB_Profile_Driver():
 		self.password = password
 		self.editor = HTML_Editor()
 
-<<<<<<< HEAD:fb_module/profile_getter.py
 	def run_full(self, body_html, path, type):
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		edited_body_html = profile_type_list[type](body_html, 'TEST')
+		edited_body_html = profile_type_list[type](body_html, 'User')
 		self.load_body_html(edited_body_html)
 		self.take_screenshot_full(path)
 
 	def run_small(self, body_html, path, type):
-		imgurl = self.editor.saveProfilePic(body_html)
-		small_html = self.editor.replaceRequests(body_html,"TEST", path)
+		small_html = self.editor.replaceRequests(body_html, type)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
@@ -65,23 +64,6 @@ class FB_Profile_Driver():
 				else:
 					print("ValueError: {0}".format(err))
 		self.browser.close()
-
-=======
-	"""Given the url of a participant in the study, return a friend of theirs"""
-	def run(self, profile_url, path):
-		friends_list = self.access_friends_of_profile(profile_url)
-		friend_body_html = self.access_friend(friends_list)
-		imgurl = self.editor.saveProfilePic(friend_body_html)
-		'''print('url:' + imgurl)
-		self.resizer.resizeimage(imgurl, path)
-		sleep(5)
-		profile_type = random.randint(0, 4)
-		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		print (profile_type)
-		edited_body_html = profile_type_list[profile_type](friend_body_html, 'TEST')
-		self.load_body_html(edited_body_html)'''
-		self.take_screenshot(path)
->>>>>>> 8a2dc4cb73cca7fdfe8e95128e969a118f410b66:flaskapp/fb_module/profile_getter.py
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
@@ -139,9 +121,10 @@ class FB_Profile_Driver():
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot_full(self, path):
 		sleep(5)
-		self.browser.get_screenshot_as_file(path + '_screenshot_big.png')
+		image = self.browser.find_element_by_xpath('/html/body').screenshot_as_png
+		open(path + 'screenshot_full.png', 'wb').write(image)
 
 	def take_screenshot_small(self, path):
 		sleep (5)
 		image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
-		print (image)
+		open(path + 'screenshot_small.png', 'wb').write(image)
