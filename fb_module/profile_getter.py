@@ -109,7 +109,7 @@ class FB_Profile_Driver():
 	def take_screenshot_full(self, path):
 		sleep(5)
 		image = self.browser.find_element_by_xpath('/html/body').screenshot_as_png
-		open(path + 'screenshot_full3.png', 'wb').write(image)
+		open(path + 'screenshot_full.png', 'wb').write(image)
 
 	def take_screenshot_small(self, path):
 		sleep (5)

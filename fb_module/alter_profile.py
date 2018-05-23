@@ -100,9 +100,14 @@ class HTML_Editor(object):
 
     def replaceTL (self, s):
         return s.replace('<a class="_6-6 _6-7"','<a class="_6-6"')
+    
+    def removeChat (self, s):
+        startAndEnd = self.getStartAndEnd(s, '<a class="fbNubButton"', '<div class="fbNubFlyout')
+        print (startAndEnd)
+        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
     def doAlways (self, s, name):
-        return self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name)))
+        return self.removeChat(self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name))))
 
 
     def returnToDefault(self, s, name):
