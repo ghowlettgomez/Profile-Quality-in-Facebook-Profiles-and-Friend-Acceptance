@@ -64,7 +64,7 @@ class FB_Profile_Driver():
 				if sleeptime < 5:
 					print("ValueError iter " . sleeptime)
 					self.runner(sleeptime + 1,openreqs)
-					break
+					return
 				else:
 					print("ValueError: {0}".format(err))
 		self.browser.close()
