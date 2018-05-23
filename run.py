@@ -14,13 +14,13 @@ def runner(profile_url, path, sleeptime, type):
             f.run(profile_url, path, sleeptime, type)
             break
         except IndexError as err:
-            if sleeptime < 25:
+            if sleeptime < 5:
                 print("IndexError iter " . sleeptime)
                 runner(sleeptime + 1,openreqs)
             else:
                 print("IndexError: {0}".format(err))
         except ValueError as err:
-            if sleeptime < 25:
+            if sleeptime < 5:
                 print("ValueError iter " . sleeptime)
                 runner(sleeptime + 1,openreqs)
             else:
