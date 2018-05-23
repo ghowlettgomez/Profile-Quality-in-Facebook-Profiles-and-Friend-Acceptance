@@ -27,12 +27,12 @@ class FB_Profile_Driver():
 
 	def run_full(self, body_html, path, type):
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		edited_body_html = profile_type_list[type](body_html, 'TEST')
+		edited_body_html = profile_type_list[type](body_html, 'User')
 		self.load_body_html(edited_body_html)
 		self.take_screenshot_full(path)
 
 	def run_small(self, body_html, path, type):
-		small_html = self.editor.replaceRequests(body_html)
+		small_html = self.editor.replaceRequests(body_html, type)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
@@ -98,9 +98,18 @@ class FB_Profile_Driver():
 		sleep(5)
 
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
+#	def take_screenshot_full(self, path):
+#		sleep(5)
+#		self.browser.get_screenshot_as_file(path + 'screenshot_full1.png')
+#		sleep(2)
+#		self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#		sleep(2)
+#		self.browser.get_screenshot_as_file(path + 'screenshot_full2.png')
+
 	def take_screenshot_full(self, path):
 		sleep(5)
-		self.browser.get_screenshot_as_file(path + 'screenshot_full.png')
+		image = self.browser.find_element_by_xpath('/html/body').screenshot_as_png
+		open(path + 'screenshot_full3.png', 'wb').write(image)
 
 	def take_screenshot_small(self, path):
 		sleep (5)
