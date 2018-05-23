@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from fb_module.alter_profile import HTML_Editor
-from fb_module.photoresizer import Photo_Resizer
 from time import sleep
 import random
 import json
@@ -21,8 +20,6 @@ class FB_Profile_Driver():
 		self.username = username
 		self.password = password
 		self.editor = HTML_Editor()
-		self.resizer = Photo_Resizer()
-		self.access_profile()
 
 	def run_full(self, body_html, path, type):
 		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
@@ -32,7 +29,6 @@ class FB_Profile_Driver():
 
 	def run_small(self, body_html, path, type):
 		imgurl = self.editor.saveProfilePic(body_html)
-		self.resizer.resizeimage(imgurl, path)
 		small_html = self.editor.replaceRequests(body_html,"TEST", path)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
@@ -45,6 +41,28 @@ class FB_Profile_Driver():
 		self.run_small(small_html, path, type)
 		full_html = self.editor.deleteRequestDropdown(small_html)
 		self.run_full(full_html, path, type)
+
+	"""Function such that if run fails, we try again"""
+	def runner(self, profile_url, path, sleeptime, type):
+		self.access_profile()
+		while True:
+			try:
+				self.run(profile_url, path, sleeptime, type)
+				break
+			except IndexError as err:
+				if sleeptime < 5:
+					print("IndexError iter " . sleeptime)
+					runner(sleeptime + 1,openreqs)
+				else:
+					print("IndexError: {0}".format(err))
+			except ValueError as err:
+				if sleeptime < 5:
+					print("ValueError iter " . sleeptime)
+					self.runner(sleeptime + 1,openreqs)
+					break
+				else:
+					print("ValueError: {0}".format(err))
+		self.browser.close()
 
 
 	""" Enters a user's facebook profile"""
@@ -101,7 +119,7 @@ class FB_Profile_Driver():
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot_full(self, path):
 		sleep(5)
-		self.browser.get_screenshot_as_file(path + 'screenshot.png')
+		self.browser.get_screenshot_as_file(path + '_screenshot_big.png')
 
 	def take_screenshot_small(self, path):
 		sleep (5)

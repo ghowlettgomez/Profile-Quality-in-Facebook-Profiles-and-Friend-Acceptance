@@ -1,42 +1,39 @@
-#!/usr/bin/python3.6
-
+from flask import Flask, request, send_from_directory, jsonify
 from fb_module.profile_getter import FB_Profile_Driver
-import urllib.parse
+import uuid
+import threading
+import random
 
-def home_handler(env, start_fn):
-    start_fn('200 OK', [('Content-Type', 'text/html')])
-    return[bytes('<form action="make_profile" method="post">Facebook URL: <input type="text" name="url"><br><input type="submit" value="Submit"></form>', 'utf-8')]
+"""This is an apache based app. The tutorial we used is at
+    https://www.datasciencebytes.com/bytes/2015/02/24/running-a-flask-app-on-aws-ec2/
+"""
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/tmp'
+@app.route("/")
+def hello():
+    return "Usable Security API!"
 
-def make_profile(env, start_fn):
-    try:
-        request_body_size = int(env.get('CONTENT_LENGTH', 0))
-    except(ValueError):
-        request_body_size = 0
-
-    raw_body = env['wsgi.input'].read(request_body_size).decode()
-    body = urllib.parse.parse_qs(raw_body)
-
+@app.route("/get_profile", methods=['GET'])
+def get_profile():
+    profile_url = request.args.get('profile_url', None)
     f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
-    f.run(body['url'][0], '/tmp/screenshot2.png')
+    unique_id = str(uuid.uuid4())
+    image_type = random.randint(0, 4)
+    run_args = [profile_url, '/tmp/' + unique_id, 1,image_type]
+    run_thread = threading.Thread(target=f.runner, args=run_args)
+    run_thread.start()
+    return jsonify(unique_id=unique_id,
+                   type=image_type)
 
-    start_fn('200 OK', [('Content-Type', 'text/html')])
-    return[bytes("Getting profile.", 'utf-8')]
+@app.route("/get_little", methods=['GET'])
+def get_little():
+    unique_id = request.args.get('unique_id', None)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + '_screenshot_little.png')
 
-routes = {
-    '/': home_handler,
-    '/make_profile': make_profile,
-}
+@app.route("/get_big", methods=['GET'])
+def get_big():
+    unique_id = request.args.get('unique_id', None)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + '_screenshot_big.png')
 
-class Application(object):
-    def __init__(self, routes):
-        self.routes = routes
-
-    def not_found(self, env, start_fn):
-        start_fn('404 Not Found', [('Content-Type', 'text/html')])
-        return [bytes("404 Not Found", 'utf-8')]
-
-    def __call__(self, env, start_fn):
-        handler = self.routes.get(env.get('PATH_INFO')) or self.not_found
-        return handler(env, start_fn)
-
-app = Application(routes)
+if __name__ == '__main__':
+    app.run()

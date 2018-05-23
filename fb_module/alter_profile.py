@@ -1,4 +1,8 @@
+# coding: utf8
 import random;
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 """ Given a body html in the form of a string, edits the html in certain ways.
 """
