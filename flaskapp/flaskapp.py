@@ -18,9 +18,9 @@ def hello():
 def get_profile():
     profile_url = request.args.get('profile_url', None)
     f = FB_Profile_Driver('cs232facebook@gmail.com', 'Facebook1!')
-    unique_id = str(uuid.uuid4())
+    unique_id = uuid.uuid4().int
     image_type = random.randint(0, 4)
-    run_args = [profile_url, '/tmp/' + unique_id, 1,image_type]
+    run_args = [profile_url, '/tmp/' + str(unique_id), 1,image_type]
     run_thread = threading.Thread(target=f.runner, args=run_args)
     run_thread.start()
     return jsonify(unique_id=unique_id,
