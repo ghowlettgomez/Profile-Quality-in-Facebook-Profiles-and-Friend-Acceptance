@@ -16,7 +16,7 @@ import json
 """
 class FB_Profile_Driver():
 	""" Note that to access a user's friends list,
-		we need to enter a facebook account
+		we need to enter a facebook account.
 	"""
 	def __init__(self, username, password):
 		self.username = username

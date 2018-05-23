@@ -1,6 +1,6 @@
 import random;
 
-""" Given a body html in the form of a string, edits the html in certain ways.
+""" Given a body html in the form of a string, edits the html in certain ways..
 """
 class HTML_Editor(object):
 
