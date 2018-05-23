@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from fb_module.alter_profile import HTML_Editor
 from fb_module.photoresizer import Photo_Resizer
 from time import sleep
+import io
 import random
 import json
 
@@ -33,7 +34,7 @@ class FB_Profile_Driver():
 	def run_small(self, body_html, path, type):
 		imgurl = self.editor.saveProfilePic(body_html)
 		self.resizer.resizeimage(imgurl, path)
-		small_html = self.editor.replaceRequests(body_html,"TEST", path)
+		small_html = self.editor.replaceRequests(body_html, path)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
@@ -101,9 +102,9 @@ class FB_Profile_Driver():
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
 	def take_screenshot_full(self, path):
 		sleep(5)
-		self.browser.get_screenshot_as_file(path + 'screenshot.png')
+		self.browser.get_screenshot_as_file(path + 'screenshot_full.png')
 
 	def take_screenshot_small(self, path):
 		sleep (5)
 		image = self.browser.find_element_by_id('01392847102938471209587012398471029384701_1_req').screenshot_as_png
-		print (image)
+		open(path + 'screenshot_small.png', 'wb').write(image)
