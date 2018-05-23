@@ -56,18 +56,18 @@ class FB_Profile_Driver():
 				break
 			except IndexError as err:
 				if sleeptime < 5:
-					print("IndexError iter " . sleeptime)
-					runner(sleeptime + 1,openreqs)
+					print("IndexError iter " + str(sleeptime))
+					self.runner(profile_url,path,sleeptime + 1,type)
 					return
 				else:
-					print("IndexError: {0}".format(err))
+					print("IndexError: {0}" + format(err))
 			except ValueError as err:
 				if sleeptime < 5:
-					print("ValueError iter " . sleeptime)
-					self.runner(sleeptime + 1,openreqs)
+					print("ValueError iter " + str(sleeptime))
+					self.runner(profile_url,path,sleeptime + 1,type)
 					return
 				else:
-					print("ValueError: {0}".format(err))
+					print("ValueError: {0}" + format(err))
 		self.browser.close()
 
 	""" Enters a user's facebook profile"""
