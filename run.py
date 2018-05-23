@@ -15,16 +15,16 @@ def runner(profile_url, path, sleeptime, type):
             break
         except IndexError as err:
             if sleeptime < 5:
-                print("IndexError iter " . sleeptime)
+                print("IndexError iter " + sleeptime)
                 runner(sleeptime + 1,openreqs)
             else:
-                print("IndexError: {0}".format(err))
+                print("IndexError: {0}" + format(err))
         except ValueError as err:
             if sleeptime < 5:
-                print("ValueError iter " . sleeptime)
+                print("ValueError iter " + sleeptime)
                 runner(sleeptime + 1,openreqs)
             else:
-                print("ValueError: {0}".format(err))
+                print("ValueError: {0}" + format(err))
 
 
 runner('https://www.facebook.com/profile.php?id=100008426081012', '/tmp/', 1, random.randint(0,4))
