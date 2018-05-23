@@ -3,6 +3,7 @@ from fb_module.profile_getter import FB_Profile_Driver
 import uuid
 import threading
 import random
+import os
 
 """This is an apache based app. The tutorial we used is at
     https://www.datasciencebytes.com/bytes/2015/02/24/running-a-flask-app-on-aws-ec2/
@@ -35,6 +36,15 @@ def get_little():
 def get_big():
     unique_id = request.args.get('unique_id', None)
     return send_from_directory(app.config['UPLOAD_FOLDER'], unique_id + 'screenshot_full.png')
+
+@app.route("/delete_screenshots", methods=['get'])
+def delete_screenshots():
+    unique_id = request.args.get('unique_id', None)
+    little_path = app.config['UPLOAD_FOLDER'] + '/' + unique_id + 'screenshot_small.png'
+    big_path = app.config['UPLOAD_FOLDER'] + '/' + unique_id + 'screenshot_full.png'
+    os.remove(little_path)
+    os.remove(big_path)
+    return jsonify(success=True)
 
 if __name__ == '__main__':
     app.run()
