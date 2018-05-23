@@ -4,7 +4,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-""" Given a body html in the form of a string, edits the html in certain ways.
+""" Given a body html in the form of a string, edits the html in certain ways..
 """
 class HTML_Editor(object):
 
@@ -92,9 +92,13 @@ class HTML_Editor(object):
         request = '<li class="objectListItem" id="01392847102938471209587012398471029384701_1_req"><div class="clearfix" data-ft="{&quot;tn&quot;:&quot;-Z&quot;}"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel" tabindex="-1" data-ft="{&quot;tn&quot;:&quot;-^&quot;}" class="_8o _8s lfloat _ohe" id="u_14_3"><img class="_s0 _4ooo _rw img" src="' + url + '" alt="" aria-label="Aditya Shekhar" role="img"></a><div class="_42ef"><div id="100002392517786_1_req_status" class="requestStatus"><div class="clearfix"><div class="rfloat _ohf"><div class="accessible_elem" data-ft="{&quot;tn&quot;:&quot;-]&quot;}"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><div class="_6a"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div class="auxiliary" id="100002392517786_1_req_aux"><form rel="async" action="/ajax/reqs.php" method="post" onsubmit="return window.Event &amp;&amp; Event.__inlineSubmit &amp;&amp; Event.__inlineSubmit(this,event)" id="u_14_4"><input type="hidden" name="fb_dtsg" value="AQEty0AqyR4i:AQGWLGET-qZp" autocomplete="off"><input type="hidden" autocomplete="off" id="confirm_100002392517786_1_req" value="100002392517786" name="confirm"><input type="hidden" autocomplete="off" value="friend_connect" name="type"><input type="hidden" autocomplete="off" value="100002392517786" name="request_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req" name="list_item_id"><input type="hidden" autocomplete="off" value="100002392517786_1_req_status" name="status_div_id"><input type="hidden" autocomplete="off" value="1" name="inline"><input type="hidden" autocomplete="off" value="jewel" name="ref"><input type="hidden" autocomplete="off" name="ego_log"><div class="actions"><img class="loadingIndicator img" src="https://static.xx.fbcdn.net/rsrc.php/v3/yA/r/0_KqJAcnl8J.gif" alt="" width="16" height="11"><button value="1" class="_42ft _4jy0 _4jy3 _4jy1 selected _51sy" name="actions[accept]" type="submit">Confirm</button><button value="1" class="_42ft _4jy0 _4jy3 _517h _51sy" name="actions[reject]" type="submit">Delete Request</button></div></form></div></div></div></div><div class="_6a requestStatusBlock _42ef" aria-hidden="true"><div class="_6a _6b" style="height:50px"></div><div class="_6a _6b"><div data-ft="{&quot;tn&quot;:&quot;-]&quot;}" id="u_14_5"><span class="title fsl fwb fcb"><a href="https://www.facebook.com/aditya.shekhar.14?fref=jewel">' + name + '</a></span> </div><span class="_1nd3"><a ajaxify="/ajax/browser/dialog/mutual_friends/?uid=100002392517786" href="/browse/mutual_friends/?uid=100002392517786" rel="dialog" style="" role="button" class="_39g5" data-hover="tooltip" id="js_g9">' + mutual + '</a></span></div></div></div></div></div></div></li>'
         return request
 
-    def replaceRequests (self, s, type):
+    def replaceRequests (self, s, type, friends):
         name = self.getName(s)
-        newReqs = self.alterSmallRequest(name, random.randint(2,50),self.saveProfilePic(s))
+        if type == 0:
+            url = 'https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-1/c94.0.320.320/p320x320/10354686_10150004552801856_220367501106153455_n.jpg?_nc_cat=0&amp;oh=63eaf30685976e364570705952740b4f&amp;oe=5B9BDFDE'
+        else:
+            url = self.saveProfilePic(s)
+        newReqs = self.alterSmallRequest(name, friends, url)
         startAndEnd = self.getStartAndEnd(s,'<ul class="uiList _4kg _4ks">','<li class')
         return s[0:startAndEnd[0]] + '<ul class="uiList _4kg _4ks">' + newReqs +  s[startAndEnd[1]:len(s)]
     
@@ -104,22 +108,33 @@ class HTML_Editor(object):
 
     def replaceTL (self, s):
         return s.replace('<a class="_6-6 _6-7"','<a class="_6-6"')
+    
+    def removeChat (self, s):
+        startAndEnd = self.getStartAndEnd(s, '<a class="fbNubButton"', '<div class="fbNubFlyout')
+        return s[0:startAndEnd[0]] + s[startAndEnd[1]:len(s)]
 
-    def doAlways (self, s, name):
-        return self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name)))
+    def addMutualFriends (self, s, friends):
+        if friends <= 0:
+            return s
+        startAndEnd = self.getStartAndEnd(s, 'Friends<span class="_513x', '>')
+        mutual = '<span class="_gs6"><span id="u_0_v">' + str(friends) + ' Mutual</span></span>'
+        return s[0:startAndEnd[0]+7] + mutual + s[startAndEnd[0]+7:len(s)]
+
+    def doAlways (self, s, name, friends):
+        return self.addMutualFriends(self.removeChat(self.fixButton(self.removeAddFriendBanner(self.nameInMenu(s, name)))), friends)
 
 
-    def returnToDefault(self, s, name):
-        return self.replaceTL(self.removeSidebar(self.removeHistory(self.replaceBackground(self.replaceProfilePic(self.doAlways(s, name))))))
+    def returnToDefault(self, s, name, friends):
+        return self.replaceTL(self.removeSidebar(self.removeHistory(self.replaceBackground(self.replaceProfilePic(self.doAlways(s, name, friends))))))
 
-    def returnUnchanged(self, s, name):
-        return self.doAlways(s, name)
+    def returnUnchanged(self, s, name, friends):
+        return self.doAlways(s, name, friends)
 
-    def onlySidebar(self, s, name):
-        return self.removeHistory(self.doAlways(s, name))
+    def onlySidebar(self, s, name, friends):
+        return self.removeHistory(self.doAlways(s, name, friends))
 
-    def onlyPosts (self, s, name):
-        return self.removeSidebar(self.doAlways(s, name))
+    def onlyPosts (self, s, name, friends):
+        return self.removeSidebar(self.doAlways(s, name, friends))
 
-    def removeAllHistory (self, s, name):
-        return self.removeSidebar(self.removeHistory(self.doAlways(s, name)))
+    def removeAllHistory (self, s, name, friends):
+        return self.removeSidebar(self.removeHistory(self.doAlways(s, name, friends)))

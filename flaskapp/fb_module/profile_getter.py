@@ -16,32 +16,36 @@ import json
 """
 class FB_Profile_Driver():
 	""" Note that to access a user's friends list,
-		we need to enter a facebook account
+		we need to enter a facebook account.
 	"""
 	def __init__(self, username, password):
 		self.username = username
 		self.password = password
 		self.editor = HTML_Editor()
 
-	def run_full(self, body_html, path, type):
-		profile_type_list = [self.editor.returnToDefault, self.editor.returnUnchanged, self.editor.onlySidebar, self.editor.onlyPosts, self.editor.removeAllHistory]
-		edited_body_html = profile_type_list[type](body_html, 'User')
+	def run_full(self, body_html, path, type, friends):
+		profile_type_list = [self.editor.returnToDefault, self.editor.removeAllHistory, self.editor.onlyPosts, self.editor.onlySidebar,  self.editor.returnUnchanged]
+		edited_body_html = profile_type_list[type](body_html, 'User', friends)
 		self.load_body_html(edited_body_html)
 		self.take_screenshot_full(path)
 
-	def run_small(self, body_html, path, type):
-		small_html = self.editor.replaceRequests(body_html, type)
+	def run_small(self, body_html, path, type, friends):
+		small_html = self.editor.replaceRequests(body_html, type, friends)
 		self.load_body_html(small_html)
 		self.take_screenshot_small(path)
 
 
 	"""Given the url of a participant in the study, return a friend of theirs"""
 	def run(self, profile_url, path, sleeptime, type):
+		if type <= 2:
+			friends = 0
+		else:
+			friends = random.randint(2, 30)
 		friends_list = self.access_friends_of_profile(profile_url)
 		small_html = self.access_friend_small(friends_list,sleeptime)
-		self.run_small(small_html, path, type)
+		self.run_small(small_html, path, type, friends)
 		full_html = self.editor.deleteRequestDropdown(small_html)
-		self.run_full(full_html, path, type)
+		self.run_full(full_html, path, type, friends)
 
 	"""Function such that if run fails, we try again"""
 	def runner(self, profile_url, path, sleeptime, type):
@@ -94,7 +98,7 @@ class FB_Profile_Driver():
 		friends_len = 0
 		while True:
 			friends |= set(self.browser.find_elements_by_xpath("//div[@class='fsl fwb fcb']"))
-			if len(friends) == friends_len or friends_len > 200:
+			if len(friends) == friends_len or friends_len > 500:
 				return list(friends)
 			friends_len = len(friends)
 			self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
