@@ -46,7 +46,7 @@ class FB_Profile_Driver():
 		options.add_argument('-headless')
 		ffprofile = webdriver.FirefoxProfile()
 		ffprofile.set_preference("dom.webnotifications.enabled", False)
-		self.browser = webdriver.Firefox(ffprofile, firefox_options=options)
+		self.browser = webdriver.Firefox(ffprofile, firefox_options=options, log_path=None)
 		self.browser.get('https://www.facebook.com/')
 		sleep(1)
 		username_input = self.browser.find_element_by_id('email')
