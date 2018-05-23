@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
 from fb_module.alter_profile import HTML_Editor
-from fb_module.photoresizer import Photo_Resizer
 from time import sleep
 import io
 import random
@@ -22,8 +22,6 @@ class FB_Profile_Driver():
 		self.username = username
 		self.password = password
 		self.editor = HTML_Editor()
-		self.resizer = Photo_Resizer()
-		self.access_profile()
 
 	def run_full(self, body_html, path, type, friends):
 		profile_type_list = [self.editor.returnToDefault, self.editor.removeAllHistory, self.editor.onlyPosts, self.editor.onlySidebar,  self.editor.returnUnchanged]
@@ -49,12 +47,35 @@ class FB_Profile_Driver():
 		full_html = self.editor.deleteRequestDropdown(small_html)
 		self.run_full(full_html, path, type, friends)
 
+	"""Function such that if run fails, we try again"""
+	def runner(self, profile_url, path, sleeptime, type):
+		self.access_profile()
+		while True:
+			try:
+				self.run(profile_url, path, sleeptime, type)
+				break
+			except IndexError as err:
+				if sleeptime < 5:
+					print("IndexError iter " . sleeptime)
+					runner(sleeptime + 1,openreqs)
+				else:
+					print("IndexError: {0}".format(err))
+			except ValueError as err:
+				if sleeptime < 5:
+					print("ValueError iter " . sleeptime)
+					self.runner(sleeptime + 1,openreqs)
+					break
+				else:
+					print("ValueError: {0}".format(err))
+		self.browser.close()
 
 	""" Enters a user's facebook profile"""
 	def access_profile(self):
+		options = Options()
+		options.add_argument('-headless')
 		ffprofile = webdriver.FirefoxProfile()
 		ffprofile.set_preference("dom.webnotifications.enabled", False)
-		self.browser = webdriver.Firefox(ffprofile)
+		self.browser = webdriver.Firefox(ffprofile, firefox_options=options, log_path=None)
 		self.browser.get('https://www.facebook.com/')
 		sleep(1)
 		username_input = self.browser.find_element_by_id('email')
@@ -102,14 +123,6 @@ class FB_Profile_Driver():
 		sleep(5)
 
 	"""Takes a screenshot and saves it to given path, give 5 seconds for screen to load"""
-#	def take_screenshot_full(self, path):
-#		sleep(5)
-#		self.browser.get_screenshot_as_file(path + 'screenshot_full1.png')
-#		sleep(2)
-#		self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-#		sleep(2)
-#		self.browser.get_screenshot_as_file(path + 'screenshot_full2.png')
-
 	def take_screenshot_full(self, path):
 		sleep(5)
 		image = self.browser.find_element_by_xpath('/html/body').screenshot_as_png
