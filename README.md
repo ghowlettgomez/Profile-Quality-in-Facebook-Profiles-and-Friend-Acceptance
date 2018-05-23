@@ -7,7 +7,7 @@ Flask app used for the Evaluating Contact Requests study for UChicago's Usable S
 
 3. /get_big gets the big screenshot of the friend request which is a photo the altered friend profile itself. It takes in the unique id from /get_profile
 
-4. /delete_screenshots deletes the screenshots produced by /get_profile
+4. /delete_screenshots deletes the screenshots produced by /get_profile. It takes in the unique id from /get_profile.
 
 There are five types of big screenshots that we take: 
   1. a completely full profile
