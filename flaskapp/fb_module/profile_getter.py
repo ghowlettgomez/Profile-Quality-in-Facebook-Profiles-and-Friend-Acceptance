@@ -90,7 +90,7 @@ class FB_Profile_Driver():
 	def access_friends_of_profile(self, profile_url):
 		#self.browser.get(profile_url.split('?')[0] + '/friends')
 		self.browser.get(profile_url)
-		friends_url = self.browser.find_element_by_xpath('/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[2]/div/div[1]/div/div[3]/div/div[2]/div[2]/ul/li[3]/a')
+		friends_url = self.browser.find_element_by_xpath('/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[2]/div/div[2]/div[3]/div/div/div[2]/div/ul[1]')
 		friends_url.click()
 		sleep(5)
 		friends = set()
