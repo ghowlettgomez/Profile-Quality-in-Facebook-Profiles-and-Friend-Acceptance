@@ -91,9 +91,11 @@ class FB_Profile_Driver():
 		#self.browser.get(profile_url.split('?')[0] + '/friends')
 		self.browser.get(profile_url)
 		inner_html = self.browser.execute_script("return document.body.innerHTML")
-		friends_url = self.browser.find_element_by_css_selector('#u_0_13 > li:nth-child(3) > a')
-		friends_url.click()
-		sleep(5)
+		friends_url = self.editor.getFriends(inner_html)
+		print friends_url
+		print "FUUUUUCKJ"
+		exit()
+		self.browser.get(friends_url)
 		friends = set()
 		friends_len = 0
 		while True:
