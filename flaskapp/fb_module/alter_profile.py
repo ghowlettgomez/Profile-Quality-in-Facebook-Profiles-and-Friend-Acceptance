@@ -20,6 +20,10 @@ class HTML_Editor(object):
         except ValueError:
             return [0, 0]
         return indices
+    
+    def getFriends(self, s):
+        startAndEnd=self.getStartAndEnd(s, 'data-tab-key="friends" href="', '"')
+        return s[(startAndEnd[0]+29):startAndEnd[1]]
 
     def getName(self, s):
         nameStart = self.getStartAndEnd(s, "_2nlw _2nlv", '>')[1]
