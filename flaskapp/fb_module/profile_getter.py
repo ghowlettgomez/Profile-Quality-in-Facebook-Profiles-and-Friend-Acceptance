@@ -92,8 +92,6 @@ class FB_Profile_Driver():
 		self.browser.get(profile_url)
 		inner_html = self.browser.execute_script("return document.body.innerHTML")
 		friends_url = self.editor.getFriends(inner_html)
-		print friends_url
-		print "FUUUUUCKJ"
 		exit()
 		self.browser.get(friends_url)
 		friends = set()
