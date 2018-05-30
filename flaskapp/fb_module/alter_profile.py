@@ -22,8 +22,10 @@ class HTML_Editor(object):
         return indices
     
     def getFriends(self, s):
-        startAndEnd=self.getStartAndEnd(s, 'data-tab-key="friends" href="', '"')
-        return s[(startAndEnd[0]+29):startAndEnd[1]]
+        startAndEnd=self.getStartAndEnd(s, 'data-tab-key="friends"', 'href="')
+        href=s[startAndEnd[1]+5:len(s)]
+        startAndEndHref=self.getStartAndEnd(href, '"', '">')
+        return href[(startAndEndHref[0]+1):startAndEndHref[1]]
 
     def getName(self, s):
         nameStart = self.getStartAndEnd(s, "_2nlw _2nlv", '>')[1]
