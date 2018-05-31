@@ -90,9 +90,10 @@ class FB_Profile_Driver():
 	def access_friends_of_profile(self, profile_url):
 		#self.browser.get(profile_url.split('?')[0] + '/friends')
 		self.browser.get(profile_url)
-		inner_html = self.browser.execute_script("return document.body.innerHTML")
-		friends_url = self.editor.getFriends(inner_html)
-		exit()
+		if 'profile.php' in profile_url:
+			friends_url = profile_url + '&sk=friends'
+		else:
+			friends_url = profile_url + '/friends'
 		self.browser.get(friends_url)
 		friends = set()
 		friends_len = 0

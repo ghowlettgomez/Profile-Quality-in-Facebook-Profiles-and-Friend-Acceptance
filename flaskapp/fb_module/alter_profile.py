@@ -1,8 +1,8 @@
 # coding: utf8
 import random;
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
 
 """ Given a body html in the form of a string, edits the html in certain ways..
 """
@@ -22,10 +22,11 @@ class HTML_Editor(object):
         return indices
     
     def getFriends(self, s):
-        startAndEnd=self.getStartAndEnd(s, '="friends"', 'href="')
+        startAndEnd=self.getStartAndEnd(s, '"friends"', 'href="')
         href=s[startAndEnd[1]+5:len(s)]
         startAndEndHref=self.getStartAndEnd(href, '"', '">')
-        return href[(startAndEndHref[0]+1):startAndEndHref[1]]
+        result = href[(startAndEndHref[0]+1):startAndEndHref[1]]
+        print (result)
 
     def getName(self, s):
         nameStart = self.getStartAndEnd(s, "_2nlw _2nlv", '>')[1]
