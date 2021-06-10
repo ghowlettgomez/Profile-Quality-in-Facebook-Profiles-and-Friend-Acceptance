@@ -13,7 +13,7 @@ coinmarketcap==4.2.1
 configparser==3.5.0
 dask==0.13.0
 dj-database-url==0.4.2
-Django==1.11.10
+Django==2.2.24
 django-heroku==0.2.0
 enum34==1.1.6
 flake8==3.5.0
