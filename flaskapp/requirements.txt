@@ -42,7 +42,7 @@ overpy==0.4
 pandas==0.19.2
 pathlib==1.0.1
 pew==1.1.2
-Pillow==4.0.0
+Pillow==9.0.0
 pipenv==9.0.3
 psycopg2==2.7.4
 py2app==0.7.3
